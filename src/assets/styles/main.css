@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+    }
+}
+
+@layer components {
+    .checkbox-custom {
+        @apply appearance-none w-5 h-5 border-2 border-gray-300 rounded cursor-pointer relative transition-all duration-200;
+        @apply dark:border-gray-600 dark:bg-gray-700;
+    }
+    
+    .checkbox-custom:checked {
+        @apply bg-primary border-primary;
+    }
+    
+    .checkbox-custom:checked::after {
+        content: '✓';
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+        @apply text-white text-xs font-bold;
+    }
+
+    .task-item {
+        @apply transition-all duration-300 ease-in-out;
+        animation: slideInFromRight 0.3s ease-out;
+    }
+    
+    .task-item.task-exit {
+        animation: slideOutToRight 0.3s ease-out forwards;
+    }
+
+    .tag-work { @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200; }
+    .tag-personal { @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200; }
+    .tag-urgent { @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200; }
+    .tag-study { @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200; }
+    .tag-health { @apply bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200; }
+    .tag-shopping { @apply bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200; }
+    .tag-default { @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200; }
+
+    .filter-btn {
+        @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    }
+
+    .filter-btn[aria-pressed="true"] {
+        @apply bg-primary text-white;
+    }
+
+    .filter-btn[aria-pressed="false"] {
+        @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+        @apply dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600;
+    }
+
+    .modal {
+        @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+        @apply opacity-0 invisible transition-all duration-300 ease-in-out;
+    }
+
+    .modal.show {
+        @apply opacity-100 visible;
+    }
+
+    .modal-content {
+        @apply bg-white rounded-lg p-6 max-w-lg w-full max-h-screen overflow-y-auto;
+        @apply dark:bg-gray-800;
+        @apply transform scale-90 transition-transform duration-300 ease-in-out;
+    }
+
+    .modal.show .modal-content {
+        @apply scale-100;
+    }
+
+    .sr-only {
+        @apply absolute w-px h-px p-0 -m-px overflow-hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .error-message {
+        @apply text-red-600 text-sm mt-1;
+        @apply dark:text-red-400;
+    }
+
+    .loading {
+        @apply pointer-events-none opacity-60;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .task-item {
+        @apply p-6;
+    }
+    
+    button, .tag {
+        @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+    }
+}
+
+/* Focus improvements */
+@media (prefers-reduced-motion: no-preference) {
+    :focus-visible {
+        @apply outline-none ring-2 ring-primary ring-offset-2;
+        @apply dark:ring-offset-gray-900;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .task-item {
+        @apply break-inside-avoid;
+    }
+}
