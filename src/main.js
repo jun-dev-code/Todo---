@@ -37,7 +37,7 @@ const APP_TEMPLATE = `
     </div>
 
     <!-- Notification Permission Banner -->
-    <div id="notificationBanner" class="fixed top-20 right-4 max-w-sm bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 shadow-lg z-40 transform translate-x-full transition-transform duration-300" role="banner">
+    <div id="notificationBanner" class="notification-banner hidden" role="banner">
         <div class="flex items-start gap-3">
             <svg class="w-5 h-5 text-blue-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM12 13a3 3 0 100-6 3 3 0 000 6zm0 0v6a9 9 0 009-9H12z"></path>
@@ -64,14 +64,14 @@ const APP_TEMPLATE = `
             <!-- Add Task Form -->
             <form id="addTaskForm" class="mb-8" role="form" aria-labelledby="add-task-heading">
                 <h2 id="add-task-heading" class="sr-only">新しいタスクを追加</h2>
-                <div class="space-y-3">
+                <div class="space-y-4">
                     <div>
                         <label for="taskInput" class="sr-only">タスク名</label>
                         <input 
                             type="text" 
                             id="taskInput" 
                             placeholder="新しいタスクを入力... (Ctrl+N)"
-                            class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-800 transition-colors duration-300"
+                            class="form-input"
                             required
                             aria-describedby="task-help"
                             maxlength="200"
@@ -85,19 +85,19 @@ const APP_TEMPLATE = `
                             type="text" 
                             id="tagInput" 
                             placeholder="タグを入力（カンマ区切りで複数可）例: 仕事, 緊急"
-                            class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-800 transition-colors duration-300"
+                            class="form-input"
                             aria-describedby="tag-help"
                             maxlength="100"
                         >
                         <div id="tag-help" class="sr-only">タスクのタグをカンマ区切りで入力してください。</div>
                     </div>
-                    <div class="flex gap-2">
-                        <div class="flex-1">
+                    <div class="input-group">
+                        <div class="input-field">
                             <label for="deadlineInput" class="sr-only">締切日時</label>
                             <input 
                                 type="datetime-local" 
                                 id="deadlineInput" 
-                                class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-800 transition-colors duration-300"
+                                class="form-input"
                                 aria-describedby="deadline-help"
                             >
                             <div id="deadline-help" class="sr-only">タスクの締切日時を設定してください。</div>
@@ -105,7 +105,7 @@ const APP_TEMPLATE = `
                         <button 
                             type="submit"
                             id="addTaskBtn"
-                            class="px-6 py-3 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors duration-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="form-button submit-button"
                             aria-label="タスクを追加"
                         >
                             追加
@@ -123,7 +123,7 @@ const APP_TEMPLATE = `
                         type="text" 
                         id="searchInput" 
                         placeholder="タスクを検索... (Ctrl+F)"
-                        class="w-full text-base px-4 py-3 pl-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-800 transition-colors duration-300"
+                        class="form-input pl-10"
                         aria-describedby="search-help"
                     >
                     <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -136,7 +136,7 @@ const APP_TEMPLATE = `
             <!-- Sort Options -->
             <div class="mb-4">
                 <label for="sortSelect" class="sr-only">並び順を選択</label>
-                <select id="sortSelect" class="text-base px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-800 transition-colors duration-300" aria-label="タスクの並び順">
+                <select id="sortSelect" class="form-select" aria-label="タスクの並び順">
                     <option value="created-desc">作成日時 (新しい順)</option>
                     <option value="created-asc">作成日時 (古い順)</option>
                     <option value="deadline-asc">締切日時 (近い順)</option>
@@ -269,12 +269,6 @@ try {
             todoController.destroy();
         }
     });
-    
-    // Add show class to notification banner for animation
-    const notificationBanner = document.getElementById('notificationBanner');
-    if (notificationBanner) {
-        notificationBanner.classList.add('show');
-    }
     
 } catch (error) {
     ErrorHandler.handleError(error, 'App initialization');
