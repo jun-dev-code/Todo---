@@ -11,6 +11,15 @@
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         line-height: 1.6;
     }
+
+    /* リセット不要なul/liのスタイルを削除 */
+    ul, ol {
+        @apply list-none p-0 m-0;
+    }
+
+    li {
+        @apply p-0 m-0;
+    }
 }
 
 @layer components {
@@ -36,6 +45,44 @@
     
     .task-item.task-exit {
         animation: slideOutToRight 0.3s ease-out forwards;
+    }
+
+    /* Input Group - レスポンシブレイアウト */
+    .input-group {
+        @apply flex flex-col gap-3;
+    }
+    
+    @media (min-width: 768px) {
+        .input-group {
+            @apply flex-row items-end gap-3;
+        }
+        
+        .input-group .input-field {
+            @apply flex-1;
+        }
+        
+        .input-group .submit-button {
+            @apply flex-shrink-0;
+        }
+    }
+
+    /* フォーム要素の統一スタイル */
+    .form-input {
+        @apply w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg;
+        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+        @apply bg-white dark:bg-gray-800 transition-colors duration-300;
+    }
+
+    .form-button {
+        @apply px-6 py-3 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium;
+        @apply transition-colors duration-200 whitespace-nowrap;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .form-select {
+        @apply text-base px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg;
+        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+        @apply bg-white dark:bg-gray-800 transition-colors duration-300;
     }
 
     .tag-work { @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200; }
@@ -70,7 +117,7 @@
     }
 
     .modal-content {
-        @apply bg-white rounded-lg p-6 max-w-lg w-full max-h-screen overflow-y-auto;
+        @apply bg-white rounded-lg p-6 max-w-lg w-full max-h-screen overflow-y-auto mx-4;
         @apply dark:bg-gray-800;
         @apply transform scale-90 transition-transform duration-300 ease-in-out;
     }
@@ -93,6 +140,22 @@
 
     .loading {
         @apply pointer-events-none opacity-60;
+    }
+
+    /* 通知バナーのhide状態を明確に */
+    .notification-banner {
+        @apply fixed top-20 right-4 max-w-sm z-40;
+        @apply transform translate-x-full transition-transform duration-300;
+        @apply bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-700;
+        @apply rounded-lg p-4 shadow-lg;
+    }
+
+    .notification-banner.show {
+        @apply translate-x-0;
+    }
+
+    .notification-banner.hidden {
+        @apply translate-x-full opacity-0 pointer-events-none;
     }
 }
 
@@ -132,6 +195,10 @@
     
     button, .tag {
         @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+    }
+
+    .input-group {
+        @apply gap-4;
     }
 }
 
